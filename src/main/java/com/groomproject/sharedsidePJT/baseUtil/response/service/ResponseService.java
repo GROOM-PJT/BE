@@ -42,7 +42,7 @@ public class ResponseService {
         return response;
     }
 
-    public <T> ListResponse<T> ListResult(List<T> dataList) {
+    public <T> ListResponse<T> listResult(List<T> dataList) {
         ListResponse<T> response = new ListResponse<>(dataList);
         this.setSuccessResult(response);
 
