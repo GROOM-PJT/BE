@@ -1,0 +1,54 @@
+package com.groomproject.sharedsidePJT.reservation.controller;
+
+import com.groomproject.sharedsidePJT.baseUtil.Exception.BussinessException;
+import com.groomproject.sharedsidePJT.baseUtil.response.dto.CommonResponse;
+import com.groomproject.sharedsidePJT.baseUtil.response.dto.ListResponse;
+import com.groomproject.sharedsidePJT.baseUtil.response.dto.SingleResponse;
+import com.groomproject.sharedsidePJT.baseUtil.response.service.ResponseService;
+import com.groomproject.sharedsidePJT.reservation.dto.ReservationRequest;
+import com.groomproject.sharedsidePJT.reservation.dto.ReservationResponse;
+import com.groomproject.sharedsidePJT.reservation.service.ReservationServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.NoSuchElementException;
+
+/**
+ * @Author : Jeeseob
+ * @CreateAt : 2022/10/05
+ */
+
+@Api(tags = "03. 예약")
+@RequestMapping("api/v1/reservation")
+@RestController
+@RequiredArgsConstructor
+public class Controller {
+    private final ReservationServiceImpl reservationService;
+    private final ResponseService responseService;
+
+    @ApiOperation(value = "예약 추가", notes = "예약 정보를 추가")
+    @PostMapping("/add")
+    public CommonResponse addReservation(HttpServletRequest request,
+                                         @RequestBody ReservationRequest reservation) {
+        // request의 header에서 jwt를 가져와서, 유저 정보를 가져온다.
+        reservationService.save(reservation);
+        return responseService.successResult();
+    }
+
+    @ApiOperation(value = "예약 상세 정보", notes = "예약 id값을 기반으로 해당 예약 상세 정보를 조회")
+    @GetMapping("/detail/{id}")
+    public SingleResponse<ReservationResponse> findById(HttpServletRequest request,
+                                                        @PathVariable Long id) {
+        return responseService.singleResult(reservationService.findById(id));
+    }
+
+    @ApiOperation(value = "예약 리스트", notes = "예약 id값을 기반으로 해당 예약 상세 정보를 조회")
+    @GetMapping("/list")
+    public ListResponse<ReservationResponse> findAll(HttpServletRequest request) {
+        // 해당 유저가 접근 권한이 있는지 확인해야함
+        return responseService.listResult(reservationService.findAll());
+    }
+}
