@@ -2,13 +2,10 @@ package com.groomproject.sharedsidePJT.reservation.entity;
 
 import com.groomproject.sharedsidePJT.reservation.dto.ReservationResponse;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.sql.Time;
-import java.time.LocalDate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -21,50 +18,51 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // 예약 번호
 
     // 예약시 추가 요청사항
     private String comment;
 
     // 인원
-    private int adults;
-    private int kids;
+    private int people;
 
     // 예약 날짜
-    private LocalDate date;
+    private LocalDateTime reservationTime;
+
     // 예약 시간
-    private Time time;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime reservationAt;
+    @PrePersist
+    public void createdAt() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     /**
-     * @restaurant
-     * @Relation: One To Many
+     * @ManyToOne(fetch = FetchType.LAZY)
+     * private Restaurant restraurant;
+     *
+     * @ManyToOne(fetch = FetchType.LAZY)
+     * private Member member;
      */
 
-    /**
-     * @reservationiTime
-     * @Relation: One To One
-     * @Comment: 식당 정보에서 가져와서 처리해야될 거 같은데, 어떻게 처리해야할지 의문
-     */
 
     /**
-     * @Member
-     * @Relation: One To Many
-     */
-
-    /**
-     * @paymentInfo
-     * @Relation: One To One
+     * @OneToOne
+     * private PaymentInfo paymentInfo;
      */
 
     public ReservationResponse toResponse() {
         return ReservationResponse.builder()
+                .id(this.id)
+                .comment(this.comment)
+                .reservationTime(this.reservationTime)
+                .people(this.people)
+                .createAt(this.createdAt)
                 .build();
     }
 }

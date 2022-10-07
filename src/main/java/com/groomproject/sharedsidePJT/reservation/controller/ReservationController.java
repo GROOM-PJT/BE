@@ -1,6 +1,5 @@
 package com.groomproject.sharedsidePJT.reservation.controller;
 
-import com.groomproject.sharedsidePJT.baseUtil.Exception.BussinessException;
 import com.groomproject.sharedsidePJT.baseUtil.response.dto.CommonResponse;
 import com.groomproject.sharedsidePJT.baseUtil.response.dto.ListResponse;
 import com.groomproject.sharedsidePJT.baseUtil.response.dto.SingleResponse;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.NoSuchElementException;
 
 /**
  * @Author : Jeeseob
@@ -25,7 +23,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("api/v1/reservation")
 @RestController
 @RequiredArgsConstructor
-public class Controller {
+public class ReservationController {
     private final ReservationServiceImpl reservationService;
     private final ResponseService responseService;
 
@@ -39,10 +37,10 @@ public class Controller {
     }
 
     @ApiOperation(value = "예약 상세 정보", notes = "예약 id값을 기반으로 해당 예약 상세 정보를 조회")
-    @GetMapping("/detail/{id}")
+    @GetMapping("/detail/{reservationId}")
     public SingleResponse<ReservationResponse> findById(HttpServletRequest request,
-                                                        @PathVariable Long id) {
-        return responseService.singleResult(reservationService.findById(id));
+                                                        @PathVariable Long reservationId) {
+        return responseService.singleResult(reservationService.findById(reservationId));
     }
 
     @ApiOperation(value = "예약 리스트", notes = "예약 id값을 기반으로 해당 예약 상세 정보를 조회")
@@ -50,5 +48,13 @@ public class Controller {
     public ListResponse<ReservationResponse> findAll(HttpServletRequest request) {
         // 해당 유저가 접근 권한이 있는지 확인해야함
         return responseService.listResult(reservationService.findAll());
+    }
+
+    @ApiOperation(value = "예약 취소", notes = "예약 id값을 기반으로 해당 예약을 취소한다")
+    @DeleteMapping("/delete/{reservationId}")
+    public CommonResponse delete(HttpServletRequest request,
+                                 @PathVariable Long reservationId) {
+        reservationService.delete(reservationId);
+        return responseService.successResult();
     }
 }

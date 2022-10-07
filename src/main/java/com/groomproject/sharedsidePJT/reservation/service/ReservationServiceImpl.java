@@ -1,6 +1,6 @@
 package com.groomproject.sharedsidePJT.reservation.service;
 
-import com.groomproject.sharedsidePJT.baseUtil.Exception.BussinessException;
+import com.groomproject.sharedsidePJT.baseUtil.Exception.BusinessException;
 import com.groomproject.sharedsidePJT.baseUtil.Exception.ExMessage;
 import com.groomproject.sharedsidePJT.reservation.dto.ReservationRequest;
 import com.groomproject.sharedsidePJT.reservation.dto.ReservationResponse;
@@ -31,9 +31,8 @@ public class ReservationServiceImpl implements ReservationService{
         return reservationRepository.findById(id)
                 .orElseThrow(() -> {
                     log.info("reservation error - " + ExMessage.RESERVATION_NONE_DATA.getMessage());
-                    throw new BussinessException(ExMessage.RESERVATION_NONE_DATA.getMessage());
-                })
-                .toResponse();
+                    throw new BusinessException(ExMessage.RESERVATION_NONE_DATA.getMessage());
+                }).toResponse();
     }
 
     @Override
@@ -44,7 +43,14 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
-    public void save(ReservationRequest request) {
-        reservationRepository.save(request.toEntity());
+    public void delete(Long reservationId) {
+        // 헤더를 확인해서 요청한 사람이 해당 유저가 맞는지 확인
+        reservationRepository.deleteById(reservationId);
+    }
+
+    @Override
+    public ReservationResponse save(ReservationRequest request) {
+        // 유저정보 받아와서 같이 처리
+        return reservationRepository.save(request.toEntity()).toResponse();
     }
 }

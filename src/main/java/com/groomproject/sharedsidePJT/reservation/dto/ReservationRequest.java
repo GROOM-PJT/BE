@@ -1,8 +1,7 @@
 package com.groomproject.sharedsidePJT.reservation.dto;
 
 import com.groomproject.sharedsidePJT.reservation.entity.Reservation;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.sql.Time;
 import java.time.LocalDate;
@@ -13,34 +12,32 @@ import java.time.LocalDateTime;
  * @CreateAt : 2022/10/05
  */
 
-@Data
+@Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class ReservationRequest {
     private Long restaurantId;
+    // 유저정보를 body에 넣을지, jwt에 넣어서 파싱할지 선택해야함.
+    //private Long memberId;
 
-    // 예약 날짜
-    private LocalDate date;
-    // 예약 시간
-    private Time time;
+    // 인원
+    private int people;
+
     // 예약 추가 요청 사항
     private String comment;
 
-    // 인원
-    private int adults;
-    private int kids;
-
     // 예약 시간
-    private LocalDateTime reservationAt;
-
-    // 유저정보는 jwt에 넣어서 보내면 될 듯
+    private LocalDateTime reservationTime;
 
     public Reservation toEntity() {
         return Reservation.builder()
-                .date(this.date)
-                .time(this.time)
+                //.restaraunt(restrauntService.findById(this.restarurantId).toEntity())
+                //.member(memberService.findById(this.memberId).toEntity())
                 .comment(this.comment)
-                .adults(this.adults)
-                .kids(this.kids)
+                .reservationTime(this.reservationTime)
+                .people(this.people)
                 .build();
     }
 }

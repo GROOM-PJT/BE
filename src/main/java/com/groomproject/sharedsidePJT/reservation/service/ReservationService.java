@@ -12,7 +12,12 @@ import java.util.List;
 public interface ReservationService {
     ReservationResponse findById(Long id);
 
+    void delete(Long reservationId);
+
+    ReservationResponse save(ReservationRequest request);
+
     List<ReservationResponse> findAll();
 
-    void save(ReservationRequest request);
+    // List<ReservationResponse> findByMember(Long memberId);
+    // List<ReservationResponse> findByRestaurant(Long restraurantId);
 }
