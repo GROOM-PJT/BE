@@ -16,8 +16,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     private final ResponseService responseService;
 
-    @ExceptionHandler(BussinessException.class)
-    protected CommonResponse golbalExceptionHandler(BussinessException e) {
+    @ExceptionHandler(BusinessException.class)
+    protected CommonResponse globalBusinessExceptionHandler(BusinessException e) {
+        return responseService.failResult(e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    protected CommonResponse globalExceptionHandler(Exception e) {
         return responseService.failResult(e.getMessage());
     }
 }
