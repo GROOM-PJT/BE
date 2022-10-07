@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
     private final ResponseService responseService;
+
     @ExceptionHandler(BussinessException.class)
     protected CommonResponse golbalExceptionHandler(BussinessException e) {
         return responseService.failResult(e.getMessage());
