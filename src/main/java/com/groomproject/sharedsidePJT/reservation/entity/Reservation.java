@@ -2,8 +2,6 @@ package com.groomproject.sharedsidePJT.reservation.entity;
 
 import com.groomproject.sharedsidePJT.reservation.dto.ReservationResponse;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,7 +27,7 @@ public class Reservation {
     private String comment;
 
     // 인원
-    private int people;
+    private int numberOfReservations;
 
     // 예약 날짜
     private LocalDateTime reservationTime;
@@ -61,7 +59,7 @@ public class Reservation {
                 .id(this.id)
                 .comment(this.comment)
                 .reservationTime(this.reservationTime)
-                .people(this.people)
+                .people(this.numberOfReservations)
                 .createAt(this.createdAt)
                 .build();
     }

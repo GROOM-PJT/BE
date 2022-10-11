@@ -23,7 +23,7 @@ public class ReservationRequest {
     //private Long memberId;
 
     // 인원
-    private int people;
+    private int numberOfReservations;
 
     // 예약 추가 요청 사항
     private String comment;
@@ -37,7 +37,7 @@ public class ReservationRequest {
                 //.member(memberService.findById(this.memberId).toEntity())
                 .comment(this.comment)
                 .reservationTime(this.reservationTime)
-                .people(this.people)
+                .numberOfReservations(this.numberOfReservations)
                 .build();
     }
 }
