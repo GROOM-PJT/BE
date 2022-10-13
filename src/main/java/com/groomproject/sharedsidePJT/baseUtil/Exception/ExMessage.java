@@ -16,6 +16,7 @@ public enum ExMessage {
     , PASSWORD_PATTERN_INCONSISTENCY("비밀번호는 영문자와 특수문자를 포함하여 8자 이상으로 이뤄져야 합니다.")
     , PASSWORD_INCONSISTENCY("패스워드가 일치하지 않습니다")
     , LOGIN_WRONG_INPUT("아이디 또는 비밀번호를 잘못 입력하셨습니다.")
+    , RESERVATION_NONE_DATA("예약 정보가 확인되지 않습니다.")
     ;
 
     private final String message;
