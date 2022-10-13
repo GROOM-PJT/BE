@@ -17,6 +17,7 @@ public enum ExMessage {
     , PASSWORD_INCONSISTENCY("패스워드가 일치하지 않습니다")
     , LOGIN_WRONG_INPUT("아이디 또는 비밀번호를 잘못 입력하셨습니다.")
     , RESERVATION_NONE_DATA("예약 정보가 확인되지 않습니다.")
+    , RESTAURANT_NONE_DATA("식당 정보가 없습니다.")
     ;
 
     private final String message;
