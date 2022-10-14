@@ -44,7 +44,7 @@ public class RestaurantController {
     @ApiOperation(value = "상세 정보", notes = "상세 정보를 조회")
     @GetMapping("/all")
     public ListResponse<RestaurantResponse> findById(HttpServletRequest request) {
-        return responseService.ListResult(restaurantService.findAll());
+        return responseService.listResult(restaurantService.findAll());
     }
 
     @ApiOperation(value = "삭제", notes = "삭제한다.")
